@@ -3,8 +3,7 @@
  * v1.0.0
  * (https://github.com/gionatan-lombardi/tabs-manager-light)
  * Based on Remy Sharp's post, "How tabs should work" - https://24ways.org/2015/how-tabs-should-work/
- * Copyright (c) 2016 Gionatan Lombardi
- * Licensed under the MIT license
+ * Copyright (c) Remy Sharp - http://remysharp.com
  */
 
 if (typeof jQuery === 'undefined') {

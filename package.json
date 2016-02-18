@@ -17,6 +17,5 @@
   "dependencies": {
     "jquery": "^2.1.4"
   },
-  "license" : "MIT",
-  "keywords": ["jQuery", "jQuery Plugin", "tabs", "JavaScript tabs plugin", ]
+  "keywords": ["JavaScript", "jQuery", "jQuery Plugin", "tabs", "JavaScript tabs plugin" ]
 }
