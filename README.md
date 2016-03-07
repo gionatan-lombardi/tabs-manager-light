@@ -8,3 +8,7 @@ Based on Remy Sharp's post, ["How tabs should work"](https://24ways.org/2015/how
 
 ## Borwsers support
 IE9+
+Firefox 1
+Chrome 1
+Safari 1
+Opera 7
