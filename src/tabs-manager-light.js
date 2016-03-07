@@ -122,6 +122,7 @@ var buildObj = {
   init: function init(element) {
     var self = this;
 
+    // An empty array
     self.targets = []
 
     // Collects all the tabs in a NodeList
@@ -130,6 +131,7 @@ var buildObj = {
     // Loops over the tab's NodeList
     for (var i = 0; i < self.allTabs.length; ++i) {
       var el = self.allTabs[i];
+      // Adds a click event to every tab link
       el.addEventListener('click', function() {
         self.target = document.querySelector(this.hash);
         self.target.removeAttribute("id");
@@ -137,9 +139,11 @@ var buildObj = {
           setTimeout(self.update);
         }
       });
-      // get an array of the panel ids (from the anchor hash)
+
+      // Sets the tabindex attribute
       el.setAttribute('tabindex', 0);
-      // populates the array of the panel ids (from the anchor hash)
+
+      // populates an array of the panel ids (from the anchor hash)
       self.targets.push(el.hash);
     }
 
