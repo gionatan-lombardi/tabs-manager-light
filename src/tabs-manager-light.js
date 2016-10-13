@@ -1,5 +1,5 @@
 /*!
- * tabs-manager-light 
+ * tabs-manager-light
  * v2.0.0
  * (https://github.com/gionatan-lombardi/tabs-manager-light)
  * Based on Remy Sharp's post, "How tabs should work" - https://24ways.org/2015/how-tabs-should-work/
@@ -9,7 +9,7 @@
 ( function(window) {
 
 'use strict';
-   
+
 // Utility Functions
 
 //http://youmightnotneedjquery.com/#deep_extend
@@ -35,22 +35,6 @@ function extend(out) {
   return out;
 }
 
-// http://youmightnotneedjquery.com/#add_class
-function addClass(el, className) {
-  if (el.classList)
-    el.classList.add(className);
-  else
-    el.className += ' ' + className;
-}
-
-// http://youmightnotneedjquery.com/#remove_class
-function removeClass(el, className) {
-  if (el.classList)
-    el.classList.remove(className);
-  else
-    el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-}
-
 var buildObj = {
 
   // a temp value to cache *what* we're about to show
@@ -62,7 +46,7 @@ var buildObj = {
     var self = this;
 
     if (self.target) {
-      self.target.setAttribute('id', self.target.dataset.old);
+      self.target.id = self.target.getAttribute('data-old');
       self.target = null;
     }
 
@@ -79,9 +63,9 @@ var buildObj = {
 
   show: function show(id) {
     var self = this;
-    
+
     // The current Tab
-    var currTab; 
+    var currTab;
 
     // if no value was given, let's take the first panel
     if (!id) {
@@ -93,29 +77,29 @@ var buildObj = {
       var el = self.allTabs[i];
 
       // remove the selected class from the tabs
-      removeClass(el, self.options.tabCurrentClass);
+      el.classList.remove(self.options.tabCurrentClass)
       el.setAttribute('aria-selected', 'false');
-      
+
       // and add it to the one the user selected
       if (el.hash === id) {
-        addClass(el, self.options.tabCurrentClass);
+        el.classList.add(self.options.tabCurrentClass)
         el.setAttribute('aria-selected', 'true');
-      } 
+      }
     }
-    
+
     // Loops over the panels
     for (var i = 0; i < self.panels.length; ++i) {
       var el = self.panels[i];
 
       // Remove open class to all the panels
-      removeClass(el, self.options.panelOpenClass);
-      el.setAttribute('aria-hidden', 'false');
-      
+      el.classList.remove(self.options.panelOpenClass);
+      el.setAttribute('aria-hidden', 'true');
+
       // adds open class the the target panel
       if (('#'+el.id) === id) {
-        addClass(el, self.options.panelOpenClass);
-        el.setAttribute('aria-hidden', 'true');
-      } 
+        el.classList.add(self.options.panelOpenClass);
+        el.setAttribute('aria-hidden', 'false');
+      }
     }
   },
 
@@ -153,7 +137,7 @@ var buildObj = {
     // Loops over the panel's NodeList to set the data-old attribute
     for (var i = 0; i < self.panels.length; ++i) {
       var el = self.panels[i];
-      el.dataset.old = el.id;
+      el.setAttribute('data-old', el.id);
     }
 
     window.addEventListener( 'hashchange', self.update.bind(self) );

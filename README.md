@@ -32,7 +32,7 @@ tabsManagerLight('.tab', {
   panelOpenClass: 'open-panel'
 });
 ```
-That's all! Show, hide and styles will'be managed via css.
+That's all! Show, hide and styles will all be managed with css.
 
 **Have fun.**
 
