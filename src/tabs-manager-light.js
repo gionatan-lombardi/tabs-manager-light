@@ -151,7 +151,7 @@ var buildObj = {
         self.target = document.querySelector(this.hash);
         self.target.removeAttribute("id");
         if (location.hash === this.hash) {
-          setTimeout(self.update);
+          setTimeout(self.update.bind(self));
         }
       });
 
