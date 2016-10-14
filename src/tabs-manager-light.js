@@ -39,6 +39,10 @@ var buildObj = {
 
   // a temp value to cache *what* we're about to show
   target: null,
+  prevTab: null,
+  currentTab: null,
+  prevPanel: null,
+  currentPanel: null,
 
   // Plugin Specific Functions
 
@@ -63,9 +67,8 @@ var buildObj = {
 
   show: function show(id) {
     var self = this;
-
-    // The current Tab
-    var currTab;
+    var openTab = false;
+    var openPanel = false;
 
     // if no value was given, let's take the first panel
     if (!id) {
@@ -76,14 +79,18 @@ var buildObj = {
     for (var i = 0; i < self.allTabs.length; ++i) {
       var el = self.allTabs[i];
 
+      if (el.classList.contains(self.options.tabCurrentClass)) {
+        self.prevTab = el;
+      }
+
       // remove the selected class from the tabs
       el.classList.remove(self.options.tabCurrentClass)
       el.setAttribute('aria-selected', 'false');
 
       // and add it to the one the user selected
       if (el.hash === id) {
-        el.classList.add(self.options.tabCurrentClass)
-        el.setAttribute('aria-selected', 'true');
+        self.currentTab = el;
+        openTab = true;
       }
     }
 
@@ -91,16 +98,40 @@ var buildObj = {
     for (var i = 0; i < self.panels.length; ++i) {
       var el = self.panels[i];
 
+      if (el.classList.contains(self.options.panelOpenClass)) {
+        self.prevPanel = el;
+      }
       // Remove open class to all the panels
       el.classList.remove(self.options.panelOpenClass);
       el.setAttribute('aria-hidden', 'true');
 
       // adds open class the the target panel
       if (('#'+el.id) === id) {
-        el.classList.add(self.options.panelOpenClass);
-        el.setAttribute('aria-hidden', 'false');
+        self.currentPanel = el;
+        openPanel = true;
       }
     }
+
+    if (openTab) {
+      self.currentTab.classList.add(self.options.tabCurrentClass)
+      self.currentTab.setAttribute('aria-selected', 'true');
+    }
+
+    if (openPanel) {
+      self.currentPanel.classList.add(self.options.panelOpenClass);
+      self.currentPanel.setAttribute('aria-hidden', 'false');
+      // Public callback
+      if (self.options.onPanelChange) {
+        self.options.onPanelChange(self.currentTab, self.currentPanel, self.prevTab, self.prevPanel);
+      }
+    }
+
+  },
+
+  // Public exposed methods
+
+  onPanelChange: function onPanelChange(fn) {
+    fn();
   },
 
   init: function init(element) {
@@ -148,6 +179,17 @@ var buildObj = {
     } else {
       self.show();
     }
+
+    return {
+      tabs: self.allTabs,
+      panels: self.panels,
+      get currentTab() {
+        return self.currentTab
+      },
+      get currentPanel() {
+        return self.currentPanel
+      },
+    }
   },
 
 };
@@ -161,7 +203,7 @@ function tabsManagerLight(element, cstOptions) {
   var options = extend(defaultOptions, cstOptions);
   var o = Object.create(buildObj);
   o.options = options;
-  o.init(element);
+  return o.init(element);
 };
 
 // transport
